@@ -102,7 +102,7 @@ export default function Home() {
             ) : (
               <>
                 <Search className="mr-2" />
-                周辺のおいしい店を探す
+                🍽️ 美味しいお店を探す
               </>
             )}
           </button>

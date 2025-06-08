@@ -10,6 +10,49 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+  
+  /* ニューモーフィズム風スタイル */
+  .neumorphism {
+    background: linear-gradient(145deg, #f0f0f0, #ffffff);
+    box-shadow: 8px 8px 16px #d1d1d1, -8px -8px 16px #ffffff;
+    border: none;
+  }
+  
+  .neumorphism-inset {
+    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+    box-shadow: inset 8px 8px 16px #d1d1d1, inset -8px -8px 16px #ffffff;
+    border: none;
+  }
+  
+  .neumorphism-button {
+    background: linear-gradient(145deg, #f0f0f0, #ffffff);
+    box-shadow: 8px 8px 16px #d1d1d1, -8px -8px 16px #ffffff;
+    transition: all 0.2s ease;
+  }
+  
+  .neumorphism-button:hover {
+    background: linear-gradient(145deg, #ffffff, #f5f5f5);
+    box-shadow: 4px 4px 8px #d1d1d1, -4px -4px 8px #ffffff;
+  }
+  
+  .neumorphism-button:active {
+    background: linear-gradient(145deg, #e8e8e8, #ffffff);
+    box-shadow: inset 4px 4px 8px #d1d1d1, inset -4px -4px 8px #ffffff;
+  }
+  
+  .neumorphism-card {
+    background: linear-gradient(145deg, #f8f8f8, #ffffff);
+    box-shadow: 12px 12px 24px #d1d1d1, -12px -12px 24px #ffffff;
+    border-radius: 20px;
+    border: none;
+    transition: all 0.3s ease;
+  }
+  
+  .neumorphism-card:hover {
+    background: linear-gradient(145deg, #ffffff, #f5f5f5);
+    box-shadow: 16px 16px 32px #d1d1d1, -16px -16px 32px #ffffff;
+    transform: translateY(-2px);
+  }
 }
 
 @layer base {
