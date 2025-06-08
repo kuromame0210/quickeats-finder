@@ -16,8 +16,8 @@ import SearchRadiusSelector from "@/components/search-radius-selector"
 export default function Home() {
   const [isSearched, setIsSearched] = useState(false)
   const [filters, setFilters] = useState<FilterState>({
-    showOpenOnly: false,
-    minRating: 3.0,
+    showOpenOnly: true,
+    minRating: 4.0,
     selectedGenres: [],
     priceRange: "",
     sortBy: "distance",
