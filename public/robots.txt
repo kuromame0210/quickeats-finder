@@ -7,4 +7,4 @@ Allow: /
 User-agent: AdsBot-Google
 Allow: /
 
-Sitemap: https://your-domain.vercel.app/sitemap.xml
+Sitemap: https://[あなたのサイトのURL]/sitemap.xml

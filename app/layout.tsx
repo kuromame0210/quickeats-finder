@@ -43,6 +43,9 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <head>
+        {/* AdSense アカウント確認用メタタグ */}
+        <meta name="google-adsense-account" content="ca-pub-8944353268937152" />
+        
         {process.env.NEXT_PUBLIC_ADSENSE_ID && (
           <Script
             async
