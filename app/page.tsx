@@ -10,8 +10,10 @@ import type { FilterState, SearchOptions } from "@/types/interfaces"
 import Header from "@/components/header"
 import { useGeolocation } from "@/hooks/use-geolocation"
 import { useRestaurantSearch } from "@/hooks/use-restaurant-search"
+import { useUsageCounter } from "@/hooks/use-usage-counter"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import SearchRadiusSelector from "@/components/search-radius-selector"
+import AdBanner from "@/components/ad-banner"
 
 export default function Home() {
   const [isSearched, setIsSearched] = useState(false)
@@ -28,11 +30,13 @@ export default function Home() {
 
   const { latitude, longitude, error: locationError, loading: locationLoading, getCurrentPosition } = useGeolocation()
   const { restaurants, loading: searchLoading, error: searchError, searchRestaurants } = useRestaurantSearch()
+  const { usageCount, shouldShowExtraAds, incrementUsage } = useUsageCounter()
 
   const handleSearch = async () => {
     if (latitude && longitude) {
       await searchRestaurants(latitude, longitude, searchOptions.radius)
       setIsSearched(true)
+      incrementUsage() // 検索時に使用回数をカウント
     } else {
       getCurrentPosition()
     }
@@ -43,8 +47,9 @@ export default function Home() {
     if (latitude && longitude && !isSearched) {
       searchRestaurants(latitude, longitude, searchOptions.radius)
       setIsSearched(true)
+      incrementUsage() // 自動検索時も使用回数をカウント
     }
-  }, [latitude, longitude, isSearched, searchOptions.radius, searchRestaurants])
+  }, [latitude, longitude, isSearched, searchOptions.radius, searchRestaurants, incrementUsage])
 
   const handleFilterChange = (newFilters: Partial<FilterState>) => {
     setFilters((prev) => ({ ...prev, ...newFilters }))
@@ -114,12 +119,42 @@ export default function Home() {
             現在地: {latitude.toFixed(4)}, {longitude.toFixed(4)}
           </div>
         )}
+        
+        {/* 使用回数表示（開発用） */}
+        {process.env.NODE_ENV === "development" && (
+          <div className="text-center text-xs text-gray-500 mb-4">
+            使用回数: {usageCount}/15 {shouldShowExtraAds && "(追加広告表示中)"}
+          </div>
+        )}
 
         {isSearched && (
           <>
             <SearchRadiusSelector radius={searchOptions.radius} onChange={handleRadiusChange} />
             <FilterPanel filters={filters} onFilterChange={handleFilterChange} />
+            
+            {/* 15回使用後に追加広告を表示 */}
+            {shouldShowExtraAds && (
+              <div className="mb-6">
+                <AdBanner
+                  slot="9876543210"
+                  format="rectangle"
+                  className="h-32 flex items-center justify-center"
+                />
+              </div>
+            )}
+            
             <RestaurantList restaurants={filteredRestaurants} />
+            
+            {/* 15回使用後かつ結果が5件以上の場合に下部広告を表示 */}
+            {shouldShowExtraAds && filteredRestaurants.length > 5 && (
+              <div className="mt-6">
+                <AdBanner
+                  slot="5432109876"
+                  format="rectangle"
+                  className="h-32 flex items-center justify-center"
+                />
+              </div>
+            )}
           </>
         )}
       </div>
